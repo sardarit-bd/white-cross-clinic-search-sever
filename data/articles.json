@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Understanding Heart Disease and Cardiovascular Health",
+    "content": "Heart disease refers to various conditions that affect the heart's structure and function. Common types include coronary artery disease, arrhythmias, and heart failure. Early detection and lifestyle changes can significantly reduce risks.",
+    "tags": ["cardiac", "heart", "cardiovascular", "health"]
+  },
+  {
+    "title": "Brain Health and Neurological Nutrition",
+    "content": "Proper nutrition plays a crucial role in maintaining brain health. Foods rich in omega-3 fatty acids, antioxidants, and vitamins support cognitive function and may reduce the risk of neurological disorders.",
+    "tags": ["brain", "neurology", "cognitive", "nutrition"]
+  },
+  {
+    "title": "Pediatric Care Guidelines for Children",
+    "content": "Regular check-ups and vaccinations are essential for child development. This article covers the latest guidelines for pediatric care from birth through adolescence.",
+    "tags": ["pediatric", "children", "childcare", "kids"]
+  },
+  {
+    "title": "Skin Cancer Prevention and Dermatological Care",
+    "content": "Learn about the different types of skin cancer and effective prevention strategies. Regular skin examinations and sun protection are key to early detection and treatment.",
+    "tags": ["skin", "dermatology", "cancer", "prevention"]
+  },
+  {
+    "title": "Cardiac Rehabilitation After Heart Surgery",
+    "content": "Cardiac rehabilitation programs help patients recover from heart surgery and manage heart conditions through exercise, education, and lifestyle modifications.",
+    "tags": ["cardiac", "rehabilitation", "surgery", "recovery"]
+  },
+  {
+    "title": "Bone Health and Orthopedic Treatments",
+    "content": "Maintaining strong bones through proper nutrition and exercise can prevent orthopedic issues. Learn about common bone disorders and modern treatment options.",
+    "tags": ["bone", "orthopedic", "skeletal", "health"]
+  }
+]

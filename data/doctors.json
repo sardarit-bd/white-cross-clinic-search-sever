@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Dr. Sarah Johnson",
+    "department": "Cardiology",
+    "specialization": "Heart Disease, Cardiovascular Surgery"
+  },
+  {
+    "name": "Dr. Michael Chen",
+    "department": "Neurology", 
+    "specialization": "Brain Disorders, Cognitive Health"
+  },
+  {
+    "name": "Dr. Emily Davis",
+    "department": "Pediatrics",
+    "specialization": "Child Health, Infant Care"
+  },
+  {
+    "name": "Dr. James Wilson",
+    "department": "Cardiology",
+    "specialization": "Heart Surgery, Cardiac Rehabilitation"
+  },
+  {
+    "name": "Dr. Lisa Brown",
+    "department": "Dermatology",
+    "specialization": "Skin Care, Dermatological Surgery"
+  },
+  {
+    "name": "Dr. Robert Martinez",
+    "department": "Orthopedics",
+    "specialization": "Bone Surgery, Joint Replacement"
+  },
+  {
+    "name": "Dr. Jennifer Lee",
+    "department": "Oncology",
+    "specialization": "Cancer Treatment, Chemotherapy"
+  }
+]
