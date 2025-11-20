@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "functions": {
+    "api/mcp.js": {
+      "runtime": "nodejs20.x"
+    },
+    "api/search.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
