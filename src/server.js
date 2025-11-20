@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: ['http://localhost:3000', 'https://white-cross-clinic-frontend.vercel.app']
 }));
 
 app.get("/", async (req, res) => {
