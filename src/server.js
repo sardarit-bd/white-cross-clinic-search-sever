@@ -41,16 +41,13 @@ app.post("/search", (req, res) => {
   });
 });
 
-// -----------------------
-// const PORT = 3001;
 
-// const environment = process.env.environment
-// if (environment === "development") {
-//  app.listen(PORT, () =>
-//   console.log(`🔥 Local MCP server running on http://localhost:${PORT}`)
-// );
+const PORT = 3001;
 
-// }
 
-export default app
+  // app.listen(PORT, () =>
+  //   console.log(`🔥 Local MCP server running on http://localhost:${PORT}`)
+  // );
+
+export default app;
 
