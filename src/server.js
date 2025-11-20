@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { handleMCPRequest } from "./core/mcpHandler.js";
-import { searchAI } from "./core/searchEngine.js";
+import { handleMCPRequest } from "../core/mcpHandler.js";
+import { searchAI } from "../core/searchEngine.js";
 
 dotenv.config();
 
@@ -11,6 +11,11 @@ app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
+
+app.get("/", async (req, res) => {
+  
+  return res.send("ok");
+});
 
 // -----------------------
 // MCP ENDPOINT
@@ -37,6 +42,12 @@ app.post("/search", (req, res) => {
 
 // -----------------------
 const PORT = 3001;
-app.listen(PORT, () =>
+
+const environment = process.env.environment
+if (environment === "development") {
+ app.listen(PORT, () =>
   console.log(`🔥 Local MCP server running on http://localhost:${PORT}`)
 );
+
+}
+
