@@ -51,3 +51,5 @@ if (environment === "development") {
 
 }
 
+export default app
+
