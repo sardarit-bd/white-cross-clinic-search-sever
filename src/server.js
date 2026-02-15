@@ -74,7 +74,7 @@ app.post("/search", (req, res) => {
 });
 
 
-const PORT = 3001;
+const PORT = 5000;
 const startServer = async () => {
   try {
     await mongoose.connect(envVars.DB_URL, {
@@ -92,9 +92,9 @@ const startServer = async () => {
   seedSuperAdmin()
 })()
 
-  // app.listen(PORT, () =>
-  //   console.log(`🔥 Local server running on http://localhost:${PORT}`)
-  // );
+  app.listen(PORT, () =>
+    console.log(`🔥 Local server running on http://localhost:${PORT}`)
+  );
 
 export default app;
 

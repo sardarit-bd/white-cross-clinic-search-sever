@@ -3,7 +3,7 @@ import AppError from "../../errorHelpers/AppError.js";
 import httpStatus from 'http-status-codes'
 import bcryptjs from "bcryptjs";
 import { createUserTokens } from "../../utils/userTokens.js";
-import { Owner, Tenant, User } from "./auth.model.js";
+import { Doctor, Patient, User } from "./auth.model.js";
 import { envVars } from "../../config/env.js";
 import { sendResetPasswordEmail } from "../../utils/sendEmail.js";
 import jwt from 'jsonwebtoken'
@@ -27,13 +27,13 @@ const createUser = async (payload) => {
     ...rest,
   });
 
-  if (user.role === 'tenant') {
-    await Tenant.create({
+  if (user.role === 'patient') {
+    await Patient.create({
       user: user._id
     })
   }
-  if (user.role === 'owner') {
-    await Owner.create({
+  if (user.role === 'doctor') {
+    await Doctor.create({
       user: user._id
     })
   }
@@ -133,11 +133,11 @@ export const forgotPassword = async (payload) => {
   };
 
   const resetToken = jwt.sign(JwtPayload, envVars.JWT_ACCESS_SECRET, {
-    expiresIn: "10m",
+    expiresIn: "20m",
   });
 
 
-  const resetUrlLink = `${envVars.FRONTEND_URL}/pages/reset-password?id=${user._id}&token=${resetToken}`;
+  const resetUrlLink = `${envVars.FRONTEND_URL}/reset-password?id=${user._id}&token=${resetToken}`;
   await sendResetPasswordEmail(user.email, resetUrlLink);
   return true
 }

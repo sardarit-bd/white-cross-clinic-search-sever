@@ -6,14 +6,14 @@ import { Role } from "./auth.model.js";
 const router = Router();
 
 router.post("/register", AuthControllers.createUser);
-router.get('/me', checkAuth(Role.OWNER, Role.TENANT, Role.ADMIN, Role.SUPER_ADMIN), AuthControllers.getMe)
-router.delete('/delete-me', checkAuth(Role.OWNER, Role.TENANT, Role.ADMIN), AuthControllers.deleteMe)
+router.get('/me', checkAuth(...Object.values(Role)), AuthControllers.getMe)
+router.delete('/delete-me', checkAuth(Role.DOCTOR, Role.PATIENT, Role.ADMIN), AuthControllers.deleteMe)
 
 router.post("/login", AuthControllers.credentialsLogin);
 router.post("/logout", AuthControllers.logout);
 
-router.post("/change-password", checkAuth(Role.OWNER, Role.TENANT, Role.ADMIN, Role.SUPER_ADMIN), AuthControllers.changePassword);
+router.post("/change-password", checkAuth(...Object.values(Role)), AuthControllers.changePassword);
 router.post("/forgot-password", AuthControllers.forgotPassword);
-router.post("/reset-password", checkAuth(Role.OWNER, Role.TENANT, Role.ADMIN, Role.SUPER_ADMIN), AuthControllers.resetPassword);
+router.post("/reset-password", checkAuth(...Object.values(Role)), AuthControllers.resetPassword);
 
 export const AuthRoutes = router;

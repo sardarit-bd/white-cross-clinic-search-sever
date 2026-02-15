@@ -1,10 +1,11 @@
 import nodemailer from "nodemailer";
+import { envVars } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
+    service: envVars.EMAIL_SERVICE,
     auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
+        user: envVars.EMAIL_USERNAME,
+        pass: envVars.EMAIL_PASSWORD,
     },
 });
 
@@ -25,7 +26,7 @@ const generateEmailTemplate = (title, message, extra = "") => {
     <br><br>
     <p style="font-size: 13px; color: #666;">
       Best regards,<br>
-      <strong>Casa Viva Team</strong><br>
+      <strong>White Cross Clinic Team</strong><br>
     </p>
   </div>
   `;
@@ -39,7 +40,7 @@ export const sendResetPasswordEmail = async (email, resetUrl) => {
         const subject = "Password Reset Request";
         const message = `
       We received a request to reset the password for your 
-      <strong>Casa Viva</strong> account.
+      <strong>White Cross Clinic</strong> account.
 
       <br><br>
       Click the button below to reset your password. This link will expire in 
@@ -66,7 +67,7 @@ export const sendResetPasswordEmail = async (email, resetUrl) => {
     `;
 
         const mailOptions = {
-            from: `"${process.env.PROJECT_NAME || "CasaViva"}" <${process.env.EMAIL_USERNAME}>`,
+            from: `"${"White Cross Clinic"}" <${process.env.EMAIL_USERNAME}>`,
             to: email,
             subject,
             html: generateEmailTemplate(subject, message, button),

@@ -1,5 +1,5 @@
 import AppError from "../../errorHelpers/AppError.js";
-import { Owner, Tenant, User } from "../auth/auth.model.js";
+import { Doctor, Patient, User } from "../auth/auth.model.js";
 
 
 const updateProfile = async (userId, payload) => {
@@ -15,16 +15,16 @@ const updateProfile = async (userId, payload) => {
     await User.findByIdAndUpdate(userId, newUserData);
 
 
-    if (isUserExist.role === 'tenant') {
-        const res = await Tenant.updateOne(
+    if (isUserExist.role === 'doctor') {
+        const res = await Doctor.updateOne(
             { user: userId },
             payload
         );
     }
 
-    if (isUserExist.role === 'owner') {
+    if (isUserExist.role === 'patient') {
         // Future implementation for owner profile update
-        await Owner.updateOne(
+        await Patient.updateOne(
             { user: userId },
             payload
         );
@@ -71,28 +71,28 @@ const getAllUsers = async (userId) => {
         // Join tenants
         {
             $lookup: {
-                from: "tenants",
+                from: "doctors",
                 localField: "_id",
                 foreignField: "user",
-                as: "tenantProfile"
+                as: "doctorProfile"
             }
         },
 
         // Join owners
         {
             $lookup: {
-                from: "owners",
+                from: "patients",
                 localField: "_id",
                 foreignField: "user",
-                as: "ownerProfile"
+                as: "patientProfile"
             }
         },
 
         // Flatten arrays (optional)
         {
             $addFields: {
-                tenantProfile: { $arrayElemAt: ["$tenantProfile", 0] },
-                ownerProfile: { $arrayElemAt: ["$ownerProfile", 0] }
+                doctorProfile: { $arrayElemAt: ["$doctorProfile", 0] },
+                patientProfile: { $arrayElemAt: ["$patientProfile", 0] }
             }
         }
     ]);
