@@ -20,4 +20,9 @@ export const envVars = {
     STRIPE_SUCCESS_URL: process.env.STRIPE_SUCCESS_URL,
     STRIPE_CANCEL_URL: process.env.STRIPE_CANCEL_URL,
 
+    EMAIL_SERVICE: process.env.EMAIL_SERVICE,
+    EMAIL_USERNAME: process.env.EMAIL_USERNAME,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    PROJECT_NAME: process.env.PROJECT_NAME,
+
 }

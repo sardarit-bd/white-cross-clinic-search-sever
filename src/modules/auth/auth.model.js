@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 
 export const Role = {
-    TENANT: 'tenant',
-    OWNER: 'owner',
+    PATIENT: 'patient',
+    DOCTOR: 'doctor',
     ADMIN: 'admin',
     SUPER_ADMIN: 'super_admin'
 }
@@ -22,11 +22,11 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        default: Role.TENANT
+        default: Role.PATIENT,
     },
     verified: {
         type: Boolean,
-        default: false
+        default: true
     },
     avatar: {
         type: String,
@@ -36,7 +36,7 @@ const userSchema = new Schema({
     versionKey: false
 })
 
-const tenantSchema = new Schema({
+const patientSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -75,7 +75,7 @@ const tenantSchema = new Schema({
     versionKey: false
 })
 
-const ownerSchema = new Schema({
+const doctorSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -116,5 +116,5 @@ const ownerSchema = new Schema({
 
 
 export const User = model("User", userSchema)
-export const Tenant = model("Tenant", tenantSchema)
-export const Owner = model("Owner", ownerSchema)
+export const Patient = model("Patient", patientSchema)
+export const Doctor = model("Doctor", doctorSchema)
