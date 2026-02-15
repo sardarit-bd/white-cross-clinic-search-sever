@@ -15,7 +15,7 @@ app.use(cors({
 
 app.get("/", async (req, res) => {
   
-  return res.send("ok");
+  return res.send("This is the White Cross Clinic Search Server");
 });
 
 // -----------------------
@@ -45,9 +45,9 @@ app.post("/search", (req, res) => {
 const PORT = 3001;
 
 
-  // app.listen(PORT, () =>
-  //   console.log(`🔥 Local MCP server running on http://localhost:${PORT}`)
-  // );
+  app.listen(PORT, () =>
+    console.log(`🔥 Local server running on http://localhost:${PORT}`)
+  );
 
 export default app;
 
