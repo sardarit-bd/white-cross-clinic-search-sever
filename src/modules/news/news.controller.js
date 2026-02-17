@@ -5,7 +5,8 @@ import { NewsServices } from "./news.services.js";
 
 // Create news
 const createNews = catchAsync(async (req, res) => {
-  const news = await NewsServices.createNews(req.body);
+  const {userId} = req.user
+  const news = await NewsServices.createNews(req.body, userId);
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -17,6 +18,29 @@ const createNews = catchAsync(async (req, res) => {
 // Get all news
 const getNews = catchAsync(async (req, res) => {
   const newsList = await NewsServices.getNews();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "News fetched successfully",
+    data: newsList
+  });
+});
+
+const getSingleNewsBySlug = catchAsync(async (req, res) => {
+  const {slug} = req.params
+  const news = await NewsServices.getSingleNewsBySlug(slug);
+  console.log(news)
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "News fetched successfully",
+    data: news
+  });
+});
+
+const getNewsBySubCategory = catchAsync(async (req, res) => {
+  const {id} = req.params
+  const newsList = await NewsServices.getNewsBySubCategory(id);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -51,5 +75,7 @@ export const NewsControllers = {
   createNews,
   getNews,
   updateNews,
-  deleteNews
+  deleteNews,
+  getNewsBySubCategory,
+  getSingleNewsBySlug
 };

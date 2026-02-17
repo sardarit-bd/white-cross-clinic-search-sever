@@ -53,14 +53,14 @@ const getProfile = async (userId) => {
         throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
     }
 
-    if (user.role === 'tenant') {
-        const tenantInfo = await Tenant.findOne({ user: userId });
-        return { ...user.toObject(), tenantInfo };
+    if (user.role === 'doctor') {
+        const doctorInfo = await Doctor.findOne({ user: userId });
+        return { ...user.toObject(),  doctorInfo};
     }
 
-    if (user.role === 'owner') {
-        const ownerInfo = await Owner.findOne({ user: userId });
-        return { ...user.toObject(), tenantInfo: ownerInfo };
+    if (user.role === 'patient') {
+        const patientInfo = await Patient.findOne({ user: userId });
+        return { ...user.toObject(), patientInfo };
     }
 
     return user;

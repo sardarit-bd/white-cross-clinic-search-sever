@@ -14,6 +14,7 @@ router.delete("/:id", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), CategoryControlle
 // Subcategory routes
 router.post("/subcategory", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), CategoryControllers.createSubcategory);
 router.get("/subcategory", CategoryControllers.getSubcategories);
+router.get("/subcategories/:id", CategoryControllers.getSubcategoriesByCategory)
 router.put("/subcategory/:id", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), CategoryControllers.updateSubcategory);
 router.delete("/subcategory/:id", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), CategoryControllers.deleteSubcategory);
 

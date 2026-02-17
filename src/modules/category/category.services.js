@@ -47,6 +47,10 @@ export const getSubcategories = async () => {
   return await SubCategory.find().populate("category", "name slug").sort({ createdAt: -1 });
 };
 
+export const getSubcategoriesByCategory = async (id) => {
+  return await SubCategory.find({category: id}).sort({ createdAt: -1 });
+};
+
 export const updateSubcategory = async (id, payload) => {
   const subcategory = await SubCategory.findById(id);
   if (!subcategory) throw new AppError(httpStatus.NOT_FOUND, "Subcategory not found");
@@ -73,5 +77,6 @@ export const CategoryServices = {
   createSubcategory,
   getSubcategories,
   updateSubcategory,
-  deleteSubcategory
+  deleteSubcategory,
+  getSubcategoriesByCategory
 };

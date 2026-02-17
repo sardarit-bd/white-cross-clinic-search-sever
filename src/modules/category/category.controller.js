@@ -65,6 +65,18 @@ const getSubcategories = catchAsync(async (req, res) => {
   });
 });
 
+const getSubcategoriesByCategory = catchAsync(async (req, res) => {
+  const {id} = req.params;
+
+  const subcategories = await CategoryServices.getSubcategoriesByCategory(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Subcategories fetched successfully",
+    data: subcategories
+  });
+});
+
 const updateSubcategory = catchAsync(async (req, res) => {
   const subcategory = await CategoryServices.updateSubcategory(req.params.id, req.body);
   sendResponse(res, {
@@ -93,5 +105,6 @@ export const CategoryControllers = {
   createSubcategory,
   getSubcategories,
   updateSubcategory,
-  deleteSubcategory
+  deleteSubcategory,
+  getSubcategoriesByCategory
 };

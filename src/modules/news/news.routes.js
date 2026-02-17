@@ -8,6 +8,8 @@ const router = Router();
 // News routes
 router.post("/", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), NewsControllers.createNews);
 router.get("/", NewsControllers.getNews);
+router.get("/single/:slug", NewsControllers.getSingleNewsBySlug);
+router.get("/:id", NewsControllers.getNewsBySubCategory);
 router.put("/:id", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), NewsControllers.updateNews);
 router.delete("/:id", checkAuth(Role.ADMIN, Role.SUPER_ADMIN), NewsControllers.deleteNews);
 
