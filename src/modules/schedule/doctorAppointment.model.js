@@ -1,16 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { model } from "mongoose";
 
 const { Schema } = mongoose;
 
-const doctorScheduleSchema = new Schema(
+const doctorAppointment = new Schema(
   {
     user: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
+      type: Schema.Types.ObjectId,
+      ref: "User"
     },
     doctor: {
       type: Schema.Types.ObjectId,
-      ref: "User", 
+      ref: "User",
       required: true,
     },
 
@@ -38,7 +38,10 @@ const doctorScheduleSchema = new Schema(
       ref: "Category",
       required: true,
     },
-
+    date: {
+      type: Date,
+      default: Date.now()
+    },
     day: {
       type: String,
       required: true,
@@ -60,7 +63,7 @@ const doctorScheduleSchema = new Schema(
     },
 
     from: {
-      type: String, 
+      type: String,
       required: true,
     },
 
@@ -75,9 +78,9 @@ const doctorScheduleSchema = new Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
-export default mongoose.models.DoctorSchedule ||
-  mongoose.model("DoctorSchedule", doctorScheduleSchema);
+export const DoctorAppointment = model("DoctorAppointment", doctorAppointment);
+

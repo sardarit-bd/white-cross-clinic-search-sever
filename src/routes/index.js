@@ -5,6 +5,7 @@ import { CategoryRoutes } from "../modules/category/category.routes.js";
 import { DepartmentRoutes } from "../modules/department/department.routes.js";
 import { NewsRoutes } from "../modules/news/news.routes.js";
 import { UploadRoutes } from "../modules/upload/upload.routes.js";
+import { DoctorsAppointmentRoutes } from "../modules/schedule/doctorAppointment.routes.js";
 
 
 
@@ -35,7 +36,11 @@ const moduleRoutes = [
         path: "/upload",
         route: UploadRoutes
     }
-    
+    ,
+    {
+        path: "/doctor-appointment",
+        route: DoctorsAppointmentRoutes
+    }
 ]
 
 moduleRoutes.forEach(route => {
