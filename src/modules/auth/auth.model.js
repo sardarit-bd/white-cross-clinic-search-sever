@@ -41,16 +41,7 @@ const patientSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    phoneNumber: {
-        type: String,
-    },
     address: {
-        type: String,
-    },
-    country: {
-        type: String,
-    },
-    city: {
         type: String,
     },
     phone: {
@@ -80,21 +71,51 @@ const doctorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
-    phoneNumber: {
-        type: String,
-    },
     address: {
-        type: String,
-    },
-    country: {
-        type: String,
-    },
-    city: {
         type: String,
     },
     phone: {
         type: String,
     },
+    designation: {
+        type: String
+    },
+    yearsOfExperience: {
+        type: String
+    },
+    intro: {
+        type: String
+    },
+    education: {
+        type: String
+    },
+    expertices: {
+        type: String
+    },
+     department: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    },
+    subDepartment: {
+        type: Schema.Types.ObjectId,
+        ref: 'SubCategory'
+    },
+    available: [
+        {
+            day: {
+                type: String,
+            },
+            shift: {
+                type: String
+            },
+            from: {
+                type: String,
+            },
+            to: {
+                type: String,
+            }
+        }
+    ],
     documents: [{
         name: {
             type: String,

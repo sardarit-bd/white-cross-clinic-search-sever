@@ -45,11 +45,6 @@ app.use("/api", router);
 app.get("/", (req, res) => {
   res.send("Server is running.");
 });
-
-app.use(globalErrorHandle);
-
-app.use(notFound);
-
 // -----------------------
 // MCP ENDPOINT
 // -----------------------
@@ -72,6 +67,10 @@ app.post("/search", (req, res) => {
     count: results.length,
   });
 });
+app.use(globalErrorHandle);
+
+app.use(notFound);
+
 
 
 const PORT = 5000;

@@ -1,5 +1,6 @@
 import AppError from "../../errorHelpers/AppError.js";
 import { Doctor, Patient, User } from "../auth/auth.model.js";
+import httpStatus from 'http-status-codes'
 
 
 const updateProfile = async (userId, payload) => {
@@ -12,14 +13,15 @@ const updateProfile = async (userId, payload) => {
 
     if (payload.name) newUserData.name = payload.name;
     if (payload.avatar) newUserData.avatar = payload.avatar;
-    await User.findByIdAndUpdate(userId, newUserData);
 
+    await User.findByIdAndUpdate(userId, newUserData);
 
     if (isUserExist.role === 'doctor') {
         const res = await Doctor.updateOne(
             { user: userId },
             payload
         );
+        console.log(res)
     }
 
     if (isUserExist.role === 'patient') {
@@ -47,23 +49,61 @@ const verifyUser = async (userId) => {
     return true
 };
 const getProfile = async (userId) => {
+    console.log(userId)
     const user = await User.findById(userId).select("-password");
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
     }
 
-    if (user.role === 'tenant') {
-        const tenantInfo = await Tenant.findOne({ user: userId });
-        return { ...user.toObject(), tenantInfo };
+    if (user.role === 'doctor') {
+        const doctorInfo = await Doctor.findOne({ user: userId });
+        return { ...user.toObject(), doctorInfo };
     }
 
-    if (user.role === 'owner') {
-        const ownerInfo = await Owner.findOne({ user: userId });
-        return { ...user.toObject(), tenantInfo: ownerInfo };
+    if (user.role === 'patient') {
+        const patientInfo = await Patient.findOne({ user: userId });
+        return { ...user.toObject(), patientInfo };
     }
 
     return user;
+};
+
+const getDoctorsBySubDepartment = async (id) => {
+    const doctors = await Doctor.find({
+        subDepartment: id,
+    })
+        .populate({
+            path: "user",
+            select: "name email phone avatar",
+        })
+        .populate({
+            path: "subDepartment",
+            select: "name",
+        })
+        .populate({
+            path: "department",
+            select: "name"
+        });
+
+    return doctors;
+};
+
+const getDoctorsByDepartment = async (id) => {
+    const doctors = await Doctor.find({
+        department: id,
+    }).populate({
+        path: "user",
+        select: "name email phone avatar",
+    }).populate({
+        path: "subDepartment",
+        select: "name",
+    }).populate({
+        path: "department",
+        select: "name"
+    });
+
+    return doctors;
 };
 
 const getAllUsers = async (userId) => {
@@ -102,5 +142,7 @@ export const UserServices = {
     updateProfile,
     getProfile,
     verifyUser,
-    getAllUsers
+    getAllUsers,
+    getDoctorsBySubDepartment,
+    getDoctorsByDepartment
 };

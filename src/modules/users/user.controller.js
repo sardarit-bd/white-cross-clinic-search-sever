@@ -44,6 +44,48 @@ const getProfile = catchAsync(
         });
     }
 );
+const getSingleProfile = catchAsync(
+    async (req, res, next) => {
+        const {id} = req.params;
+
+        const user = await UserServices.getProfile(id);
+
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "User fetched Successfully",
+            data: user,
+        });
+    }
+);
+const getDoctorsBySubDeprtment = catchAsync(
+    async (req, res, next) => {
+        const {id} = req.params
+
+        const user = await UserServices.getDoctorsBySubDepartment(id);
+
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Doctors fetched Successfully",
+            data: user,
+        });
+    }
+);
+const getDoctorsByDeprtment = catchAsync(
+    async (req, res, next) => {
+        const {id} = req.params
+
+        const user = await UserServices.getDoctorsByDepartment(id);
+
+        sendResponse(res, {
+            statusCode: httpStatus.OK,
+            success: true,
+            message: "Doctors fetched Successfully",
+            data: user,
+        });
+    }
+);
 const getAllUsers = catchAsync(
     async (req, res, next) => {
         const verifiedToken = req.user;
@@ -62,5 +104,8 @@ export const UserControllers = {
    updateProfile,
    getProfile,
    getAllUsers,
-   verifyUser
+   verifyUser,
+   getDoctorsBySubDeprtment,
+   getSingleProfile,
+   getDoctorsByDeprtment
 };
