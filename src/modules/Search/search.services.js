@@ -7,9 +7,9 @@ const tavily = new TavilyClient({
   apiKey: process.env.TAVILY_API_KEY,
 });
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+// const ai = new GoogleGenAI({
+//   apiKey: process.env.GEMINI_API_KEY,
+// });
 
 async function searchDoctorsAndArticles(query, isAI) {
   try {
