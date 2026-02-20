@@ -5,9 +5,6 @@ import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import { envVars } from "./config/env.js";
 import { router } from "./routes/index.js";
-
-import { handleMCPRequest } from "../core/mcpHandler.js";
-import { searchAI } from "../core/searchEngine.js";
 import { globalErrorHandle } from "./middlewares/globalErrorHandler.js";
 import { notFound } from "./middlewares/notFound.js";
 import { seedSuperAdmin } from "./utils/seedSuperAdmin.js";
@@ -91,9 +88,9 @@ const startServer = async () => {
   seedSuperAdmin()
 })()
 
-  app.listen(PORT, () =>
-    console.log(`🔥 Local server running on http://localhost:${PORT}`)
-  );
+  // app.listen(PORT, () =>
+  //   console.log(`🔥 Local server running on http://localhost:${PORT}`)
+  // );
 
 export default app;
 
