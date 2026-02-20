@@ -147,6 +147,19 @@ const resetPassword = catchAsync(
     }
 );
 
+const sendEmail = catchAsync(
+    async (req, res, next) => {
+        await AuthServices.sendEmail(req?.body)
+
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: "Password reset link is send to your email.",
+            data: null
+        })
+
+    }
+);
 export const AuthControllers = {
     credentialsLogin,
     logout,
@@ -155,5 +168,6 @@ export const AuthControllers = {
     changePassword,
     forgotPassword,
     resetPassword,
-    deleteMe
+    deleteMe,
+    sendEmail
 };
