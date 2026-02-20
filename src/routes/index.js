@@ -6,6 +6,7 @@ import { DepartmentRoutes } from "../modules/department/department.routes.js";
 import { NewsRoutes } from "../modules/news/news.routes.js";
 import { UploadRoutes } from "../modules/upload/upload.routes.js";
 import { DoctorsAppointmentRoutes } from "../modules/schedule/doctorAppointment.routes.js";
+import { SearchRoutes } from "../modules/Search/search.routes.js";
 
 
 
@@ -40,6 +41,10 @@ const moduleRoutes = [
     {
         path: "/doctor-appointment",
         route: DoctorsAppointmentRoutes
+    },
+    {
+        path: "/search",
+        route: SearchRoutes
     }
 ]
 

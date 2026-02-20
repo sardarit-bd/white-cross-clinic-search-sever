@@ -48,25 +48,25 @@ app.get("/", (req, res) => {
 // -----------------------
 // MCP ENDPOINT
 // -----------------------
-app.post("/mcp", async (req, res) => {
-  const response = await handleMCPRequest(req.body);
-  return res.json(response);
-});
+// app.post("/mcp", async (req, res) => {
+//   const response = await handleMCPRequest(req.body);
+//   return res.json(response);
+// });
 
 // -----------------------
 // LOCAL SEARCH ENDPOINT
 // -----------------------
-app.post("/search", (req, res) => {
-  const { query } = req.body;
-  const results = searchAI(query);
+// app.post("/search", (req, res) => {
+//   const { query } = req.body;
+//   const results = searchAI(query);
 
-  return res.json({
-    success: true,
-    query,
-    results,
-    count: results.length,
-  });
-});
+//   return res.json({
+//     success: true,
+//     query,
+//     results,
+//     count: results.length,
+//   });
+// });
 app.use(globalErrorHandle);
 
 app.use(notFound);
