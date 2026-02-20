@@ -5,7 +5,7 @@ import bcryptjs from "bcryptjs";
 import { createUserTokens } from "../../utils/userTokens.js";
 import { Doctor, Patient, User } from "./auth.model.js";
 import { envVars } from "../../config/env.js";
-import { sendResetPasswordEmail } from "../../utils/sendEmail.js";
+import { sendEmail, sendResetPasswordEmail } from "../../utils/sendEmail.js";
 import jwt from 'jsonwebtoken'
 
 const createUser = async (payload) => {
@@ -160,6 +160,13 @@ export const resetPassword = async (payload, decodedToken) => {
   return true
 }
 
+
+
+export const SendEmail = async (payload) => {
+
+  await sendEmail(payload);
+  return true
+}
 export const AuthServices = {
   credentialsLogin,
   createUser,
@@ -167,5 +174,6 @@ export const AuthServices = {
   changePassword,
   resetPassword,
   forgotPassword,
-  deleteMe
+  deleteMe,
+  sendEmail
 }

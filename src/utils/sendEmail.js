@@ -79,3 +79,57 @@ export const sendResetPasswordEmail = async (email, resetUrl) => {
         throw new Error("Failed to send password reset email");
     }
 };
+
+
+const generateEmailMsg = (msg, phone, name, email) => {
+  return `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      
+      <h2 style="color:#0b7dda;">New Message from Website</h2>
+
+      <p>You have received a new message from the contact form.</p>
+
+      <table style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Name:</td>
+          <td style="padding: 8px;">${name}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Email:</td>
+          <td style="padding: 8px;">${email}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Phone:</td>
+          <td style="padding: 8px;">${phone}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Message:</td>
+          <td style="padding: 8px;">${msg}</td>
+        </tr>
+      </table>
+
+      <p style="margin-top: 30px; font-size: 14px; color: #777;">
+        This email was sent from your website contact form.
+      </p>
+
+    </div>
+  `;
+};
+export const sendEmail = async (payload) => {
+  const {name, email, phone, msg} = payload
+    try {
+        const subject = "Email From White Cross Clinic Contact Form";
+
+        const mailOptions = {
+            from: `"${"White Cross Clinic"}" <${email}>`,
+            to: process.env.EMAIL_USERNAME,
+            subject,
+            html: generateEmailMsg(msg, phone, name, email),
+        };
+
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error("Email Sending:", error);
+        throw new Error("Failed to send password reset email");
+    }
+};
