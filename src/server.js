@@ -88,9 +88,9 @@ const startServer = async () => {
   seedSuperAdmin()
 })()
 
-  // app.listen(PORT, () =>
-  //   console.log(`🔥 Local server running on http://localhost:${PORT}`)
-  // );
+  app.listen(PORT, () =>
+    console.log(`🔥 Local server running on http://localhost:${PORT}`)
+  );
 
 export default app;
 

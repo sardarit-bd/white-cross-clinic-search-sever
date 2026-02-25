@@ -1,40 +1,40 @@
 import express from 'express';
-import { checkAuth } from '../middlewares/checkAuth.js';
+import { Role } from '../auth/auth.model.js';
+import { checkAuth } from '../../middlewares/checkAuth.js';
 import { paymentController } from './payment.controller.js';
-import { Role } from '../modules/auth/auth.model.js';
 
 
 const router = express.Router();
 
 // Create checkout session (requires auth)
 router.post(
-  '/create-checkout',
-  checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-  paymentController.createCheckout
+    '/create-checkout',
+    checkAuth(...Object.values(Role)),
+    paymentController.createCheckout
 );
 
 // Verify payment (requires auth)
 router.post(
-  '/verify',
-    checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-  paymentController.verifyPayment
+    '/verify',
+    checkAuth(...Object.values(Role)),
+    paymentController.verifyPayment
 );
 
 // Get payment history
-router.get('/history', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getPaymentHistory);
+router.get('/history', checkAuth(...Object.values(Role)), paymentController.getPaymentHistory);
 router.get('/my-history', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getMyPaymentHistory);
 
 router.post(
-  '/lease-checkout',
-  checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-  paymentController.leaseCheckout
+    '/lease-checkout',
+    checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
+    paymentController.leaseCheckout
 );
 
 // Verify payment (requires auth)
 router.post(
-  '/lease-verify',
+    '/lease-verify',
     checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-  paymentController.verifyLeasePayment
+    paymentController.verifyLeasePayment
 );
 
 // Get payment history

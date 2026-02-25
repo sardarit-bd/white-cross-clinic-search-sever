@@ -7,6 +7,7 @@ import { NewsRoutes } from "../modules/news/news.routes.js";
 import { UploadRoutes } from "../modules/upload/upload.routes.js";
 import { DoctorsAppointmentRoutes } from "../modules/schedule/doctorAppointment.routes.js";
 import { SearchRoutes } from "../modules/Search/search.routes.js";
+import { TestRoutes } from "../modules/tests/test.routes.js";
 
 
 
@@ -45,6 +46,10 @@ const moduleRoutes = [
     {
         path: "/search",
         route: SearchRoutes
+    },
+    {
+        path: "/tests",
+        route: TestRoutes
     }
 ]
 
