@@ -14,6 +14,13 @@ export const getDoctorAppointmentsByPatient = async (userId) => {
     .sort({ createdDate: -1 });
 };
 
+export const getAllDoctorAppointments = async () => {
+  return await DoctorAppointment.find()
+    .populate("doctor", "name avatar")
+    .populate("category", "name")
+    .populate("user", "name avatar")
+    .sort({ createdDate: -1 });
+};
 
 export const getDoctorAppointmentsByDoctor = async (userId) => {
   return await DoctorAppointment.find({doctor: userId})
@@ -30,5 +37,6 @@ export const DoctorAppointmentServices = {
   createDoctorAppointment,
   getDoctorAppointmentsByDoctor,
   getDoctorAppointmentsByPatient,
-  deleteDoctorAppointments
+  deleteDoctorAppointments,
+  getAllDoctorAppointments
 }
