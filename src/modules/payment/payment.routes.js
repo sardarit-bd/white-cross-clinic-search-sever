@@ -24,28 +24,12 @@ router.post(
 router.get('/history', checkAuth(...Object.values(Role)), paymentController.getPaymentHistory);
 router.get('/my-history', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getMyPaymentHistory);
 
-router.post(
-    '/lease-checkout',
-    checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-    paymentController.leaseCheckout
-);
-
-// Verify payment (requires auth)
-router.post(
-    '/lease-verify',
-    checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT),
-    paymentController.verifyLeasePayment
-);
-
-// Get payment history
-router.get('/lease-history', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getPaymentHistory);
-
 
 // Request refund
 router.post('/refund', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.requestRefund);
 
 // Get refund details
-router.get('/refunds/:refundId', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getRefundDetails);
+// router.get('/refunds/:refundId', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getRefundDetails);
+// router.get('/:id', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getPaymentDetails);
+
 export const PaymentRoutes = router;
-// Get single payment details
-router.get('/:id', checkAuth(Role.OWNER, Role.SUPER_ADMIN, Role.TENANT), paymentController.getPaymentDetails);

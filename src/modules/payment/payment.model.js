@@ -36,8 +36,7 @@ const paymentSchema = new mongoose.Schema({
   // Payment Type
   paymentType: {
     type: String,
-    enum: ['test_book', 'doctor_book'],
-    required: true
+    enum: ['test_book', 'doctor_book']
   },
   
   // References
@@ -111,12 +110,12 @@ const paymentSchema = new mongoose.Schema({
 });
 
 // Indexes for better query performance
-paymentSchema.index({ user: 1, status: 1 });
-paymentSchema.index({ sessionId: 1 });
-paymentSchema.index({ paymentIntentId: 1 });
-paymentSchema.index({ property: 1 });
-paymentSchema.index({ createdAt: -1 });
-paymentSchema.index({ status: 1, paidAt: 1 });
+// paymentSchema.index({ user: 1, status: 1 });
+// paymentSchema.index({ sessionId: 1 });
+// paymentSchema.index({ paymentIntentId: 1 });
+// paymentSchema.index({ property: 1 });
+// paymentSchema.index({ createdAt: -1 });
+// paymentSchema.index({ status: 1, paidAt: 1 });
 
 // Virtual for formatted amount
 paymentSchema.virtual('displayAmount').get(function() {
