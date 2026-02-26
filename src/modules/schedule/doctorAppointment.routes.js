@@ -5,6 +5,7 @@ import { DoctoAppointControllers } from "./doctorAppointment.controllers.js";
 
 const router = Router();
 
+router.get("/", checkAuth(...Object.values(Role)), DoctoAppointControllers.getAllDoctorAppointments)
 router.post("/", checkAuth(...Object.values(Role)), DoctoAppointControllers.createDoctorAppointment);
 router.get("/patient", checkAuth(...Object.values(Role)), DoctoAppointControllers.getDoctorAppointmentByPatient)
 router.get("/doctor", checkAuth(...Object.values(Role)), DoctoAppointControllers.getDoctorAppointmentByDoctor)

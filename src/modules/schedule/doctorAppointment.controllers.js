@@ -24,6 +24,15 @@ const getDoctorAppointmentByPatient = catchAsync(async (req, res) => {
         data: appointments
     });
 });
+const getAllDoctorAppointments= catchAsync(async (req, res) => {
+    const appointments = await DoctorAppointmentServices.getAllDoctorAppointments();
+    sendResponse(res, {
+        statusCode: httpStatus.CREATED,
+        success: true,
+        message: "Appointments fetched successfully",
+        data: appointments
+    });
+});
 const getDoctorAppointmentByDoctor = catchAsync(async (req, res) => {
     const { userId } = req.user
     const appointments = await DoctorAppointmentServices.getDoctorAppointmentsByDoctor(userId);
@@ -50,5 +59,6 @@ export const DoctoAppointControllers = {
     createDoctorAppointment,
     getDoctorAppointmentByDoctor,
     getDoctorAppointmentByPatient,
-    deleteDoctorAppointment
+    deleteDoctorAppointment,
+    getAllDoctorAppointments
 };
