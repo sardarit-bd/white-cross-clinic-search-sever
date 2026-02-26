@@ -10,7 +10,6 @@ export const checkAuth =
   (...roles) =>
   async (req, res, next ) => {
     try {
-      
       let accessToken = req?.cookies?.accessToken || req?.headers?.authorization;
       if (accessToken?.startsWith("Bearer ")) {
         accessToken = accessToken.split(" ")[1];

@@ -56,6 +56,10 @@ const doctorAppointment = new Schema(
       ],
     },
 
+    confirmed: {
+      type: Boolean,
+      default: false
+    },
     shift: {
       type: String,
       enum: ["morning", "evening", "night"],
