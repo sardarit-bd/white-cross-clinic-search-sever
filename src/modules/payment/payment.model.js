@@ -20,7 +20,9 @@ const paymentSchema = new mongoose.Schema({
     required: true,
     min: 0
   },
-  
+  discount: {
+    type: Number
+  },
   currency: {
     type: String,
     default: 'usd'

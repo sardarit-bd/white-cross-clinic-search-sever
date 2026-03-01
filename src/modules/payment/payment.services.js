@@ -14,7 +14,7 @@ const createCheckoutSession = async (appointment, user) => {
             product_data: {
               name: 'Appointment Booking'
             },
-            unit_amount: 2900, 
+            unit_amount: appointment?.price * 100, 
           },
           quantity: 1,
         },

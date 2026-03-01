@@ -23,7 +23,7 @@ const createCheckout = catchAsync(async (req, res) => {
   // Save payment record in database
   const payment = await Payment.create({
     sessionId: session.id,
-    amount: 29.00,
+    amount: appointment.price,
     currency: 'usd',
     user: req.user.userId,
     appointment: appointmentId,

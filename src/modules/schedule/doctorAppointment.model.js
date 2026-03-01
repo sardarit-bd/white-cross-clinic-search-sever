@@ -80,6 +80,9 @@ const doctorAppointment = new Schema(
       type: String,
       trim: true,
     },
+    price: {
+      type: String
+    }
   },
   {
     timestamps: true,
