@@ -20,32 +20,28 @@ app.use(cors({
   credentials: true
 }));
 
-// app.use(async (req, res, next) => {
-//   try {
-//     await mongoose.connect(envVars.DB_URL, {
-//       serverSelectionTimeoutMS: 30000,
-//       connectTimeoutMS: 30000,
-//     })
-//     console.log('Connected to DB Before API')
-//     next();
-//   } catch (error) {
-//     res.status(500).json({
-//       success: false,
-//       message: 'Database connection failed',
-//       error: error.message
-//     });
-//   }
-// });
+app.use(async (req, res, next) => {
+  try {
+    await mongoose.connect(envVars.DB_URL, {
+      serverSelectionTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
+    })
+    console.log('Connected to DB Before API')
+    next();
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Database connection failed',
+      error: error.message
+    });
+  }
+});
 
 app.use("/api", router);
 
 app.get("/", (req, res) => {
   res.send("Server is running.");
 });
-
-app.use(globalErrorHandle);
-
-app.use(notFound);
 
 
 
@@ -67,6 +63,9 @@ const startServer = async () => {
 app.listen(PORT, () =>
   console.log(`🔥 Local server running on http://localhost:${PORT}`)
 );
+app.use(globalErrorHandle);
+
+app.use(notFound);
 
 export default app;
 
