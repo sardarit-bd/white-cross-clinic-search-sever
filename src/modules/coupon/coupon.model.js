@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const { Schema } = mongoose;
 
