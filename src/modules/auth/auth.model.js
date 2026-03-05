@@ -100,6 +100,9 @@ const doctorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'SubCategory'
     },
+    visitFee: {
+        type: String
+    },
     available: [
         {
             day: {
