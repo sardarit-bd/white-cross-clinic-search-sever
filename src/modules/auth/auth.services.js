@@ -1,12 +1,12 @@
 import AppError from "../../errorHelpers/AppError.js";
 
-import httpStatus from 'http-status-codes'
+import httpStatus from "http-status-codes";
 import bcryptjs from "bcryptjs";
 import { createUserTokens } from "../../utils/userTokens.js";
 import { Doctor, Patient, User } from "./auth.model.js";
 import { envVars } from "../../config/env.js";
 import { sendEmail, sendResetPasswordEmail } from "../../utils/sendEmail.js";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 const createUser = async (payload) => {
   const { email, password, ...rest } = payload;
@@ -18,8 +18,8 @@ const createUser = async (payload) => {
   }
   const hashPassword = await bcryptjs.hash(
     password,
-    Number(envVars.BCRYPT_SALT_ROUND)
-  )
+    Number(envVars.BCRYPT_SALT_ROUND),
+  );
 
   const user = await User.create({
     email,
@@ -27,15 +27,15 @@ const createUser = async (payload) => {
     ...rest,
   });
 
-  if (user.role === 'patient') {
+  if (user.role === "patient") {
     await Patient.create({
-      user: user._id
-    })
+      user: user._id,
+    });
   }
-  if (user.role === 'doctor') {
+  if (user.role === "doctor") {
     await Doctor.create({
-      user: user._id
-    })
+      user: user._id,
+    });
   }
   const userObj = user.toObject();
   delete userObj.password;
@@ -56,7 +56,7 @@ const deleteMe = async (userId) => {
     throw new AppError(httpStatus.NOT_FOUND, "User Not Found");
   }
 
-  await User.findByIdAndDelete(userId)
+  await User.findByIdAndDelete(userId);
   return true;
 };
 
@@ -71,7 +71,7 @@ const credentialsLogin = async (payload) => {
 
   const isPasswordMatched = await bcryptjs.compare(
     password,
-    isUserExist.password
+    isUserExist.password,
   );
 
   if (!isPasswordMatched) {
@@ -88,10 +88,7 @@ const credentialsLogin = async (payload) => {
   };
 };
 
-
-
 export const changePassword = async (payload, decodedToken) => {
-
   const newPassword = payload.newPassword;
   const oldPassword = payload.currentPassword;
 
@@ -99,31 +96,28 @@ export const changePassword = async (payload, decodedToken) => {
 
   const isOldPasswordMatched = await bcryptjs.compare(
     oldPassword,
-    user?.password
+    user?.password,
   );
-
 
   if (!isOldPasswordMatched) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Old Password does not matched!")
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Old Password does not matched!",
+    );
   }
 
-  user.password = await bcryptjs.hash(
-    newPassword,
-    Number(10)
-  );
+  user.password = await bcryptjs.hash(newPassword, Number(10));
   user.save();
 
-  return true
-}
-
-
+  return true;
+};
 
 export const forgotPassword = async (payload) => {
   const { email } = payload;
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "Use does not found.")
+    throw new AppError(httpStatus.NOT_FOUND, "Use does not found.");
   }
 
   const JwtPayload = {
@@ -136,12 +130,10 @@ export const forgotPassword = async (payload) => {
     expiresIn: "20m",
   });
 
-
   const resetUrlLink = `${envVars.FRONTEND_URL}/reset-password?id=${user._id}&token=${resetToken}`;
   await sendResetPasswordEmail(user.email, resetUrlLink);
-  return true
-}
-
+  return true;
+};
 
 export const resetPassword = async (payload, decodedToken) => {
   const { password } = payload;
@@ -149,24 +141,18 @@ export const resetPassword = async (payload, decodedToken) => {
   const user = await User.findById(decodedToken.userId);
 
   if (!user) {
-    throw new AppError(httpStatus.NOT_FOUND, "Use does not found.")
+    throw new AppError(httpStatus.NOT_FOUND, "Use does not found.");
   }
 
-  user.password = await bcryptjs.hash(
-    password,
-    Number(10)
-  );
+  user.password = await bcryptjs.hash(password, Number(10));
   user.save();
-  return true
-}
-
-
+  return true;
+};
 
 export const SendEmail = async (payload) => {
-
   await sendEmail(payload);
-  return true
-}
+  return true;
+};
 export const AuthServices = {
   credentialsLogin,
   createUser,
@@ -175,5 +161,5 @@ export const AuthServices = {
   resetPassword,
   forgotPassword,
   deleteMe,
-  sendEmail
-}
+  sendEmail,
+};

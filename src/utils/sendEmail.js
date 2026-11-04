@@ -133,3 +133,106 @@ export const sendEmail = async (payload) => {
         throw new Error("Failed to send password reset email");
     }
 };
+
+const escapeHtml = (value = "") =>
+    String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+const formatBookingDate = (date) =>
+    new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+    });
+
+export const sendBookingEmails = async (booking) => {
+    const {
+        bookingRef,
+        testTitle,
+        date,
+        time,
+        firstName,
+        lastName,
+        email,
+        phone,
+        dateOfBirth,
+        gender,
+        price,
+        phlebotomyFee,
+    } = booking;
+
+    const prettyDate = formatBookingDate(date);
+    const hasPrice = price !== null && price !== undefined;
+    const total = hasPrice ? Number(price) + Number(phlebotomyFee || 0) : null;
+
+    // ----- Patient email -----
+    const patientMessage = `
+      Hi ${escapeHtml(firstName)},<br><br>
+      Your appointment is confirmed. Here are your details:<br><br>
+      <strong>Booking reference:</strong> ${escapeHtml(bookingRef)}<br>
+      <strong>Test:</strong> ${escapeHtml(testTitle)}<br>
+      <strong>Date:</strong> ${escapeHtml(prettyDate)}<br>
+      <strong>Time:</strong> ${escapeHtml(time)}
+      ${hasPrice ? `<br><strong>Total to pay at the clinic:</strong> £${total.toFixed(2)}` : ""}
+    `;
+
+    const patientExtra = `
+      <div style="margin-top: 20px; padding: 15px; background: #fff; border-radius: 8px; font-size: 14px; color: #333;">
+        <strong>What happens next?</strong>
+        <ul style="padding-left: 18px; margin: 10px 0 0;">
+          <li>Please arrive at the clinic 5 minutes before your appointment time.</li>
+          <li>No upfront payment is needed. You pay at the clinic.</li>
+          <li>Your results will be delivered securely to this email address.</li>
+        </ul>
+      </div>
+    `;
+
+    // ----- Clinic email -----
+    const clinicMessage = `
+      A new test appointment has been booked.<br><br>
+      <table style="border-collapse: collapse; width: 100%;">
+        <tr><td style="padding: 6px; font-weight: bold;">Reference</td><td style="padding: 6px;">${escapeHtml(bookingRef)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Test</td><td style="padding: 6px;">${escapeHtml(testTitle)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Date</td><td style="padding: 6px;">${escapeHtml(prettyDate)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Time</td><td style="padding: 6px;">${escapeHtml(time)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Patient</td><td style="padding: 6px;">${escapeHtml(firstName)} ${escapeHtml(lastName)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Date of birth</td><td style="padding: 6px;">${escapeHtml(dateOfBirth)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Gender</td><td style="padding: 6px;">${escapeHtml(gender)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Email</td><td style="padding: 6px;">${escapeHtml(email)}</td></tr>
+        <tr><td style="padding: 6px; font-weight: bold;">Phone</td><td style="padding: 6px;">${escapeHtml(phone || "-")}</td></tr>
+        ${hasPrice ? `<tr><td style="padding: 6px; font-weight: bold;">Total</td><td style="padding: 6px;">£${total.toFixed(2)} (pay at clinic)</td></tr>` : ""}
+      </table>
+    `;
+
+    const results = await Promise.allSettled([
+        transporter.sendMail({
+            from: `"White Cross Clinic" <${process.env.EMAIL_USERNAME}>`,
+            to: email,
+            subject: "Your appointment is confirmed - White Cross Clinic",
+            html: generateEmailTemplate(
+                "Booking Confirmed",
+                patientMessage,
+                patientExtra
+            ),
+        }),
+        transporter.sendMail({
+            from: `"White Cross Clinic" <${process.env.EMAIL_USERNAME}>`,
+            to: process.env.EMAIL_USERNAME,
+            replyTo: email,
+            subject: `New test booking ${bookingRef} - ${testTitle}`,
+            html: generateEmailTemplate("New Test Booking", clinicMessage),
+        }),
+    ]);
+
+    results.forEach((result) => {
+        if (result.status === "rejected") {
+            console.error("Booking email failed:", result.reason);
+        }
+    });
+};

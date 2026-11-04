@@ -51,6 +51,40 @@ const TestSchema = new Schema(
         default: "",
       },
     ],
+    price: {
+      type: Number,
+      default: null,
+    },
+    phlebotomyFee: {
+      type: Number,
+      default: null,
+    },
+    testDuration: {
+      type: String,
+      default: "",
+    },
+    lab: {
+      type: String,
+      default: "",
+    },
+    subtitle: {
+      type: String,
+      default: "",
+    },
+    category: {
+      type: String,
+      default: "",
+    },
+    aboutText: {
+      type: String,
+      default: "",
+    },
+    faqs: [
+      {
+        question: { type: String, default: "" },
+        answer: { type: String, default: "" },
+      },
+    ],
     slug: {
       type: String,
       unique: true,

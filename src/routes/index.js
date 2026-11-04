@@ -10,6 +10,7 @@ import { SearchRoutes } from "../modules/Search/search.routes.js";
 import { TestRoutes } from "../modules/tests/test.routes.js";
 import { PaymentRoutes } from "../modules/payment/payment.routes.js";
 import { CouponRoutes } from "../modules/coupon/coupon.routes.js";
+import { TestBookingRoutes } from "../modules/testBooking/testBooking.routes.js";
 import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
@@ -61,6 +62,10 @@ const moduleRoutes = [
     {
         path: "/coupon",
         route: CouponRoutes
+    },
+    {
+        path: "/test-booking",
+        route: TestBookingRoutes
     }
 ]
 
