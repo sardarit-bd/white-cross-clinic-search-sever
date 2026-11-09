@@ -48,7 +48,7 @@ app.get("/", (req, res) => {
 
 
 
-const PORT = 5000;
+const PORT = Number(process.env.PORT) || 5000;
 const startServer = async () => {
   try {
     await mongoose.connect(envVars.DB_URL)
