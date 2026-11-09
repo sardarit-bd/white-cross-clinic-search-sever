@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://white-cross-clinic-frontend.vercel.app'],
+  origin: ['http://localhost:3000', 'https://white-cross-clinic-frontend.vercel.app','https://72.61.112.137:8443'],
   credentials: true
 }));
 
