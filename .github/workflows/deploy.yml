@@ -1,0 +1,74 @@
+
+name: Deploy White Cross Search Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: white-cross-search-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          set -euo pipefail
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Deploy application
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -p "$SSH_PORT" \
+            -o IdentitiesOnly=yes \
+            "$SSH_USER@$SSH_HOST" 'bash -se' <<'REMOTE'
+
+          set -Eeuo pipefail
+
+          cd /var/www/white-cross-clinic-search-server
+
+          echo "Fetching latest code..."
+          git fetch origin main
+          git reset --hard origin/main
+
+          echo "Installing production dependencies..."
+          npm ci --omit=dev
+
+          echo "Restarting application..."
+          if pm2 describe white-cross-clinic-search-server >/dev/null 2>&1; then
+            pm2 restart white-cross-clinic-search-server --update-env
+          else
+            pm2 start npm --name white-cross-clinic-search-server -- start
+          fi
+
+          echo "Checking application health..."
+          sleep 3
+          curl --fail --silent --show-error http://127.0.0.1:5003/
+
+          pm2 save
+
+          echo "Deployment successful!"
+
+          REMOTE
